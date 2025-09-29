@@ -8,11 +8,9 @@ resource "aws_eks_cluster" "eks_cluster" {
     endpoint_public_access  = true 
   }
 
-  # Garante que a VPC esteja pronta antes de criar o cluster
   depends_on = [module.vpc]
 }
 
-# Recurso EKS Node Group
 resource "aws_eks_node_group" "node_group" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = "app-nodes"
