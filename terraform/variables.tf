@@ -8,17 +8,10 @@ data "aws_availability_zones" "available" {
 }
 
 locals {
-  role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole"
+  aws_region = "us-east-1"
+  projetc_name = "fase3-infra-totem-de-pedidos"
 }
 
-variable "aws_region" {
-  description = "The AWS region to deploy resources in"
-  type        = string
-  default     = "us-east-1"
-}
-
-variable "projetc_name" {
-  description = "The name of the project"
-  type        = string
-  default     = "infra-totem-de-pedidos"
+locals {
+    role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole"
 }
