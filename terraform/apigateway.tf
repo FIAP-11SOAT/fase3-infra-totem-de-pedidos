@@ -38,7 +38,7 @@
 
 # data "aws_lb" "eks_alb" {
 #   tags = {
-#     "kubernetes.io/ingress-name" = "totem-pedidos-ingress"
+#     "ingress.k8s.aws/stack" = "totem-pedidos/totem-pedidos-ingress"
 #   }
 # }
 
