@@ -14,7 +14,7 @@ resource "aws_iam_openid_connect_provider" "cluster_oidc" {
 
 resource "aws_eks_cluster" "eks_cluster" {
   name     = "${local.projetc_name}-eks-cluster"
-  role_arn = local.role_arn
+  role_arn = aws_iam_role.eks_node_role.arn
 
   vpc_config {
     subnet_ids              = module.vpc.private_subnets
@@ -27,28 +27,17 @@ resource "aws_eks_cluster" "eks_cluster" {
 
 resource "aws_eks_node_group" "node_group" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "app-nodes"
-  node_role_arn   = local.role_arn
+  node_group_name = "${local.projetc_name}-app-nodes"
+  node_role_arn   = aws_iam_role.eks_node_role.arn
   subnet_ids      = module.vpc.private_subnets
 
   scaling_config {
     desired_size = 1
-    max_size     = 1
+    max_size     = 2
     min_size     = 1
   }
 
   instance_types = ["t3.medium"]
 
   depends_on = [aws_eks_cluster.eks_cluster]
-}
-
-
-output "eks_cluster_status" {
-  description = "Status do cluster EKS"
-  value       = aws_eks_cluster.eks_cluster.status
-}
-
-output "eks_cluster_endpoint" {
-  description = "Endpoint do cluster EKS"
-  value       = aws_eks_cluster.eks_cluster.endpoint
 }
