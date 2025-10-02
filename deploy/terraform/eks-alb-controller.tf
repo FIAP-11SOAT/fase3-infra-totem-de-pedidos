@@ -20,35 +20,32 @@ resource "helm_release" "aws_load_balancer_controller" {
   chart      = "aws-load-balancer-controller"
   namespace  = "kube-system"
 
-  set {
-    name  = "clusterName"
-    value = aws_eks_cluster.eks_cluster.name
-  }
-
-  set {
-    name  = "region"
-    value = local.aws_region
-  }
-
-  set {
-    name  = "vpcId"
-    value = module.vpc.vpc_id
-  }
-
-  set {
-    name  = "serviceAccount.create"
-    value = "false"
-  }
-
-  set {
-    name  = "serviceAccount.name"
-    value = kubernetes_service_account.aws_load_balancer_controller.metadata[0].name
-  }
-
-  set {
-    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = local.role_arn
-  }
+  set = [
+    {
+      name  = "clusterName"
+      value = aws_eks_cluster.eks_cluster.name
+    },
+    {
+      name  = "region"
+      value = local.aws_region
+    },
+    {
+      name  = "vpcId"
+      value = module.vpc.vpc_id
+    },
+    {
+      name  = "serviceAccount.create"
+      value = "false"
+    },
+    {
+      name  = "serviceAccount.name"
+      value = kubernetes_service_account.aws_load_balancer_controller.metadata[0].name
+    },
+    {
+      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+      value = local.role_arn
+    }
+  ]
 
   depends_on = [
     aws_eks_node_group.node_group,

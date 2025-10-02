@@ -60,10 +60,12 @@ metadata:
   labels:
     app: httpbin
   annotations:
-    alb.ingress.kubernetes.io/group.name: k8s-shared-alb-us-east-1
+    alb.ingress.kubernetes.io/group.name: k8s-shared-internal-alb-use1
     alb.ingress.kubernetes.io/scheme: internal
     alb.ingress.kubernetes.io/target-type: ip
-    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /status/200
+    kubernetes.io/ingressClassName: alb
 spec:
   rules:
     - http:

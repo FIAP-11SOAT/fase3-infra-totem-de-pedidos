@@ -17,9 +17,9 @@ resource "aws_eks_cluster" "eks_cluster" {
   role_arn = local.role_arn
 
   vpc_config {
-    subnet_ids = module.vpc.private_subnets
-    endpoint_private_access = true 
-    endpoint_public_access  = true 
+    subnet_ids              = module.vpc.private_subnets
+    endpoint_private_access = true
+    endpoint_public_access  = true
   }
 
   depends_on = [module.vpc]
