@@ -65,7 +65,7 @@ metadata:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
     alb.ingress.kubernetes.io/healthcheck-path: /status/200
-    kubernetes.io/ingressClassName: alb
+    kubernetes.io/ingress.class: alb
 spec:
   rules:
     - http:
