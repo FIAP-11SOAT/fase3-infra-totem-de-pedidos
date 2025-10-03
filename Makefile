@@ -6,3 +6,6 @@ tf-apply:
 
 tf-destroy:
 	cd deploy/terraform && terraform destroy -auto-approve
+
+tf-plan:
+	cd deploy/terraform && terraform plan
