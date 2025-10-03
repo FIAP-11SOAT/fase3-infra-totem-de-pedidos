@@ -7,7 +7,7 @@ resource "kubernetes_service_account" "aws_load_balancer_controller" {
       "app.kubernetes.io/name"      = "aws-load-balancer-controller"
     }
     annotations = {
-      "eks.amazonaws.com/role-arn" = aws_iam_role.eks_node_role.arn
+      "eks.amazonaws.com/role-arn" = aws_iam_role.alb_controller_role.arn
     }
   }
 
@@ -43,7 +43,7 @@ resource "helm_release" "aws_load_balancer_controller" {
     },
     {
       name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-      value = aws_iam_role.eks_node_role.arn
+      value = aws_iam_role.alb_controller_role.arn
     }
   ]
 
@@ -51,5 +51,6 @@ resource "helm_release" "aws_load_balancer_controller" {
     aws_eks_node_group.node_group,
     kubernetes_service_account.aws_load_balancer_controller,
     aws_iam_openid_connect_provider.cluster_oidc,
+    aws_iam_role_policy_attachment.alb_controller_attach,
   ]
 }

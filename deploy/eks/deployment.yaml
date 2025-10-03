@@ -44,7 +44,7 @@ metadata:
 spec:
   selector:
     app: httpbin
-  type: NodePort
+  type: ClusterIP
   ports:
     - protocol: TCP
       port: 80
@@ -64,9 +64,8 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internal
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
-    alb.ingress.kubernetes.io/healthcheck-path: /status/200
-    kubernetes.io/ingress.class: alb
 spec:
+  ingressClassName: alb
   rules:
     - http:
         paths:
