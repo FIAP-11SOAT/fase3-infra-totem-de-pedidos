@@ -66,30 +66,3 @@ resource "aws_iam_role_policy_attachment" "eks_node_AmazonEC2ContainerRegistryRe
   role       = aws_iam_role.eks_node_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
-
-data "aws_iam_policy_document" "alb_controller_assume_role" {
-  statement {
-    effect  = "Allow"
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-
-    principals {
-      type        = "Federated"
-      identifiers = [aws_iam_openid_connect_provider.cluster_oidc.arn]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer, "https://", "")}:sub"
-      values   = ["system:serviceaccount:kube-system:aws-load-balancer-controller"]
-    }
-  }
-}
-
-resource "aws_iam_role" "alb_controller_role" {
-  name               = "${local.projetc_name}-alb-controller-role"
-  assume_role_policy = data.aws_iam_policy_document.alb_controller_assume_role.json
-
-  tags = {
-    Name = "${local.projetc_name}-alb-controller-role"
-  }
-}

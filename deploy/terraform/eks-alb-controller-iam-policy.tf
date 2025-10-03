@@ -1,3 +1,44 @@
+data "aws_eks_cluster_auth" "auth" {
+  name = aws_eks_cluster.eks_cluster.name
+}
+
+data "tls_certificate" "cluster_oidc" {
+  url = aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer
+}
+
+resource "aws_iam_openid_connect_provider" "cluster_oidc" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.cluster_oidc.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer
+}
+
+data "aws_iam_policy_document" "alb_controller_assume_role" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+
+    principals {
+      type        = "Federated"
+      identifiers = [aws_iam_openid_connect_provider.cluster_oidc.arn]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "${replace(aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer, "https://", "")}:sub"
+      values   = ["system:serviceaccount:kube-system:aws-load-balancer-controller"]
+    }
+  }
+}
+
+resource "aws_iam_role" "alb_controller_role" {
+  name               = "${local.projetc_name}-alb-controller-role"
+  assume_role_policy = data.aws_iam_policy_document.alb_controller_assume_role.json
+
+  tags = {
+    Name = "${local.projetc_name}-alb-controller-role"
+  }
+}
+
 resource "aws_iam_policy" "alb_controller_policy" {
   name        = "${local.projetc_name}-eks-alb-AWSLoadBalancerControllerIAMPolicy"
   path        = "/"

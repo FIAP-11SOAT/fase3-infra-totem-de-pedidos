@@ -1,11 +1,11 @@
 terraform {
   required_version = ">= 1.11.0"
 
-  # backend "s3" {
-  #   bucket = "fase3-terraform-state"
-  #   key    = "fase3-infra-totem-de-pedidos/terraform.tfstate"
-  #   region = "us-east-1"
-  # }
+  backend "s3" {
+    bucket = "fase3-terraform-state"
+    key    = "fase3-infra-totem-de-pedidos/terraform.tfstate"
+    region = "us-east-1"
+  }
 
   required_providers {
     aws = {
