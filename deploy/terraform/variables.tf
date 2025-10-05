@@ -1,11 +1,19 @@
 data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 
-locals {
-  aws_region   = "us-east-1"
-  projetc_name = "fase3-infra-totem-de-pedidos"
+data "aws_secretsmanager_secret" "master_secrets" {
+  name = "terraform-master-credentials"
+}
+
+data "aws_secretsmanager_secret_version" "master_secrets" {
+  secret_id = data.aws_secretsmanager_secret.master_secrets.id
 }
 
 locals {
-  role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole"
+  aws_master_secrets = jsondecode(data.aws_secretsmanager_secret_version.master_secrets.secret_string)
+}
+
+locals {
+  aws_region   = "us-east-1"
+  project_name = "fase3-infra-totem-de-pedidos"
 }

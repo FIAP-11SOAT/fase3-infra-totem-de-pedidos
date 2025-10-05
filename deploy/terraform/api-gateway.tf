@@ -1,5 +1,5 @@
 resource "aws_apigatewayv2_api" "gtw" {
-  name          = "${local.projetc_name}-api-gateway"
+  name          = "${local.project_name}-api-gateway"
   protocol_type = "HTTP"
   cors_configuration {
     allow_headers = ["*"]
@@ -8,7 +8,7 @@ resource "aws_apigatewayv2_api" "gtw" {
   }
 
   tags = {
-    Name = "${local.projetc_name}-api-gateway"
+    Name = "${local.project_name}-api-gateway"
   }
 }
 

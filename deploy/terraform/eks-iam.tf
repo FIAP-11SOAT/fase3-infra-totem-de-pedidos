@@ -1,9 +1,9 @@
 resource "aws_iam_role" "eks_node_role" {
-  name               = "${local.projetc_name}-eks-node-role"
+  name               = "${local.project_name}-eks-node-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 
   tags = {
-    Name = "${local.projetc_name}-eks-node-role"
+    Name = "${local.project_name}-eks-node-role"
   }
 }
 

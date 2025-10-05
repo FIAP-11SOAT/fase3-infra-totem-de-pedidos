@@ -1,5 +1,5 @@
 resource "aws_security_group" "vpc_link_sg" {
-  name        = "${local.projetc_name}-eks-vpc-link-sg"
+  name        = "${local.project_name}-eks-vpc-link-sg"
   description = "Security Group for API Gateway VPC Link"
   vpc_id      = module.vpc.vpc_id
 
@@ -20,12 +20,12 @@ resource "aws_security_group" "vpc_link_sg" {
   }
 
   tags = {
-    Name = "${local.projetc_name}-eks-vpc-link-sg"
+    Name = "${local.project_name}-eks-vpc-link-sg"
   }
 }
 
 resource "aws_security_group" "alb_sg" {
-  name        = "${local.projetc_name}-eks-alb-sg"
+  name        = "${local.project_name}-eks-alb-sg"
   description = "Security Group for internal ALB in EKS"
   vpc_id      = module.vpc.vpc_id
 
@@ -46,7 +46,7 @@ resource "aws_security_group" "alb_sg" {
   }
 
   tags = {
-    Name = "${local.projetc_name}-eks-alb-sg"
+    Name = "${local.project_name}-eks-alb-sg"
     Tier = "alb/internal"
   }
 }

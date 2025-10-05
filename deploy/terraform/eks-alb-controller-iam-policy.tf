@@ -31,23 +31,23 @@ data "aws_iam_policy_document" "alb_controller_assume_role" {
 }
 
 resource "aws_iam_role" "alb_controller_role" {
-  name               = "${local.projetc_name}-alb-controller-role"
+  name               = "${local.project_name}-alb-controller-role"
   assume_role_policy = data.aws_iam_policy_document.alb_controller_assume_role.json
 
   tags = {
-    Name = "${local.projetc_name}-alb-controller-role"
+    Name = "${local.project_name}-alb-controller-role"
   }
 }
 
 resource "aws_iam_policy" "alb_controller_policy" {
-  name        = "${local.projetc_name}-eks-alb-AWSLoadBalancerControllerIAMPolicy"
+  name        = "${local.project_name}-eks-alb-AWSLoadBalancerControllerIAMPolicy"
   path        = "/"
   description = "IAM policy for AWS Load Balancer Controller"
 
   policy = file("eks-alb-controller-iam-policy.json")
 
   tags = {
-    Name = "${local.projetc_name}-eks-alb-AWSLoadBalancerControllerIAMPolicy"
+    Name = "${local.project_name}-eks-alb-AWSLoadBalancerControllerIAMPolicy"
   }
 }
 

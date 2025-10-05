@@ -3,7 +3,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project   = local.projetc_name
+      Project   = local.project_name
       ManagedBy = "devops-team"
       Terraform = "true"
     }

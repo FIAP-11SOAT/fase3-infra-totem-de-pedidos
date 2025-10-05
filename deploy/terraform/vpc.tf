@@ -1,13 +1,13 @@
 locals {
   vpc_cidr = "10.0.0.0/16"
-  azs      = slice(data.aws_availability_zones.available.names, 0, 3)
+  azs = slice(data.aws_availability_zones.available.names, 0, 3)
 }
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 6.0"
 
-  name = "${local.projetc_name}-vpc"
+  name = "${local.project_name}-vpc"
   cidr = local.vpc_cidr
 
   azs             = local.azs
@@ -29,6 +29,6 @@ module "vpc" {
   }
 
   tags = {
-    Name = "${local.projetc_name}-vpc"
+    Name = "${local.project_name}-vpc"
   }
 }

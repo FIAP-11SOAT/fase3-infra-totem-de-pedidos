@@ -1,6 +1,6 @@
 
 resource "aws_eks_cluster" "eks_cluster" {
-  name     = "${local.projetc_name}-eks-cluster"
+  name     = "${local.project_name}-eks-cluster"
   role_arn = aws_iam_role.eks_node_role.arn
 
   vpc_config {
@@ -14,7 +14,7 @@ resource "aws_eks_cluster" "eks_cluster" {
 
 resource "aws_eks_node_group" "node_group" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "${local.projetc_name}-app-nodes"
+  node_group_name = "${local.project_name}-app-nodes"
   node_role_arn   = aws_iam_role.eks_node_role.arn
   subnet_ids      = module.vpc.private_subnets
 

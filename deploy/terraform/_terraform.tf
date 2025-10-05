@@ -32,5 +32,11 @@ terraform {
       source  = "hashicorp/tls"
       version = "~> 4.1.0"
     }
+
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "3.0.2"
+    }
+
   }
 }

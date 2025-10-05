@@ -53,4 +53,5 @@ resource "helm_release" "aws_load_balancer_controller" {
     aws_iam_openid_connect_provider.cluster_oidc,
     aws_iam_role_policy_attachment.alb_controller_attach,
   ]
+  
 }

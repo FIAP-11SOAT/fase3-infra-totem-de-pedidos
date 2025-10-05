@@ -1,12 +1,12 @@
 resource "aws_lb" "eks_alb" {
-  name               = md5("${local.projetc_name}-eks-internal-alb")
+  name               = md5("${local.project_name}-eks-internal-alb")
   internal           = true
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
   subnets            = module.vpc.private_subnets
 
   tags = {
-    Name = "${local.projetc_name}-eks-alb"
+    Name = "${local.project_name}-eks-alb"
     "elbv2.k8s.aws/cluster" : aws_eks_cluster.eks_cluster.name
     "ingress.k8s.aws/resource" : "LoadBalancer"
     "ingress.k8s.aws/stack" : "k8s-shared-internal-alb-use1"
